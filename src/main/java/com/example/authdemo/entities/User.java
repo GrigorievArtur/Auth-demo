@@ -26,6 +26,12 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false, length = 50)
+    private String firstname;
+
+    @Column(nullable = false, length = 50)
+    private String lastname;
+
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -33,6 +39,7 @@ public class User implements UserDetails {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private Roles role = Roles.USER;
 
     @Override

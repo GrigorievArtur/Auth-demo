@@ -1,6 +1,7 @@
 package com.example.authdemo.services.users;
 
 import com.example.authdemo.dtos.auth.RegisterDTO;
+import com.example.authdemo.dtos.users.CreateUserDTO;
 import com.example.authdemo.entities.User;
 import com.example.authdemo.mappers.UserMapper;
 import com.example.authdemo.repositories.UserRepo;
@@ -11,8 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -24,7 +27,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
-    public User createUser(RegisterDTO dto) {
+    public User createUser(CreateUserDTO dto) {
         var user = userMapper.toUser(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         return userRepo.save(user);

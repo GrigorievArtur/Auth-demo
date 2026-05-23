@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional
 public class JwtService {
 
     private final String secret =
@@ -57,7 +59,7 @@ public class JwtService {
     }
 
     public Boolean isTokenValid(String token, UserDetails userDetails) {
-        return getClaimsFromToken(token).getSubject().equals(userDetails.getUsername()) && isTokenExpired(token);
+        return getClaimsFromToken(token).getSubject().equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
 
